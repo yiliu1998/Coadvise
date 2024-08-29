@@ -87,7 +87,5 @@ We also allow the use of adaptive Lasso (`A.Lasso`) and marginal correlation by 
 * For binary outcomes: `cloglog`, `log`, `identity`, `probit` used in arguments `out1.model.aipw` and `out0.model.aipw`. 
 * For multi-valued categorical (>=2 levels) outcomes: `poission` for Poisson regression (typically for count data), `multilogi` for multinomial logistic regression, and `ordlogi` for ordinal categorical outcomes (e.g., levels of education, grade, etc.). 
 
-The above demonstration can also be found in the Rmd file here ([click here](https://github.com/yiliu1998/Coadvise/tree/main/vignettes)), which can be downloaded and run on your local. 
-
 ## Author Information
 The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.biostat@gmail.com, if you have any questions). 
