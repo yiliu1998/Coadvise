@@ -1,0 +1,12 @@
+Package: Coadvise
+Type: Package
+Title: Covariate adjustment with variable selection in randomized clinical trials
+Version: 1.1
+Authors@R: c(
+    person("Yi", "Liu", email = "yi.iu.biostat@gmail.com", role = c("aut", "cre"), 
+			comment = c(ORCID = "0000-0002-0935-007X")))
+Maintainer: Yi Liu <yi.liu.biostat@gmail.com>
+Description: The package implements several covariate-adjusted methods for estimating the average treatment effect in randomized clinical trials, with a number of variable selection methods are incorporated (Lasso, adaptive Lasso, marginal correlation and pre-testing). 
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.2
