@@ -2,6 +2,8 @@
 
 `Coadvise` is an R package/software implementing a flexible framework of using different covariate adjustment methods with a number of variable selection methods to estimate the average treatment effect (ATE) in randomized clinical trials (RCTs). 
 
+The package also allows three methods dealing with missing data, which are complete-case analysis (`cc`), multiple imputation by chained equations (`mice`) and missingness inidcator imputation (`miss-ind`). For `mice`, see its main paper [White et al. (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4067) and its software paper [Buuren and Groothuis-Oudshoorn (2011)](https://www.jstatsoft.org/article/view/v045i03). For `miss-ind`, see [Zhao et al. (2024)](https://academic.oup.com/biomet/advance-article-abstract/doi/10.1093/biomet/asae017/7633920?redirectedFrom=fulltext) and [Zhao and Ding (2024)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2123814). As a remark, `miss-ind` in our framework only allows missing covariates data. If there are missing outcome and user wishes to use `miss-ind`, we suggest to impute outcome data first or remove data points with missing outcome (e.g., if the proportion of missing outcome data is small). 
+
 ## Usage
 
 To install the latest version of the R package from GitHub, please run following commands in R:
@@ -87,5 +89,5 @@ We also allow the use of adaptive Lasso (`A.Lasso`) and marginal correlation by 
 * For binary outcomes: `cloglog`, `log`, `identity`, `probit` used in arguments `out1.model.aipw` and `out0.model.aipw`. 
 * For multi-valued categorical (>=2 levels) outcomes: `poission` for Poisson regression (typically for count data), `multilogi` for multinomial logistic regression, and `ordlogi` for ordinal categorical outcomes (e.g., levels of education, grade, etc.). 
 
-## Author Information
+## Contact
 The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.biostat@gmail.com, if you have any questions). 
