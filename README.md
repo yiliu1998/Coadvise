@@ -1,12 +1,12 @@
 # Coadvise
 
-`Coadvise` is an R package/software implementing a flexible framework of using different covariate adjustment methods with a number of variable selection methods to estimate the average treatment effect (ATE) in randomized clinical trials (RCTs). 
+`Coadvise` is an R package that implements a flexible framework for applying different covariate adjustment methods alongside various variable selection techniques to estimate the average treatment effect (ATE) in randomized clinical trials (RCTs). 
 
-The package also allows three methods dealing with missing data, which are complete-case analysis (`cc`), multiple imputation by chained equations (`mice`) and missingness inidcator imputation (`miss-ind`). For `mice`, see its main paper [White et al. (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4067) and its software paper [Buuren and Groothuis-Oudshoorn (2011)](https://www.jstatsoft.org/article/view/v045i03). For `miss-ind`, see [Zhao et al. (2024)](https://academic.oup.com/biomet/advance-article-abstract/doi/10.1093/biomet/asae017/7633920?redirectedFrom=fulltext) and [Zhao and Ding (2024)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2123814). As a remark, `miss-ind` in our framework only allows missing covariates data. If there are missing outcome and user wishes to use `miss-ind`, we suggest to impute outcome data first or remove data points with missing outcome (e.g., if the proportion of missing outcome data is small). 
+The package also allows five methods for handling missing data in RCTs, which are complete-case analysis (`cc`), multiple imputation by chained equations (`mice`), random forest (`missForest`), inverse probability weighting (`ipw`), and missingness inidcator imputation (`missInd`). For `mice`, see [White et al. (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4067) and its software paper [Buuren and Groothuis-Oudshoorn (2011)](https://www.jstatsoft.org/article/view/v045i03). For `missForest`, see [Stekhoven et al. (2012)](https://academic.oup.com/bioinformatics/article/28/1/112/219101). For `ipw`, see [Robins et al. (1994)](https://www.tandfonline.com/doi/abs/10.1080/01621459.1994.10476818). For `missInd`, see [Zhao et al. (2024)](https://academic.oup.com/biomet/advance-article-abstract/doi/10.1093/biomet/asae017/7633920?redirectedFrom=fulltext) and [Zhao and Ding (2024)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2123814). As a note, `ipw` only permits missing outcome data, while `missInd` only allows missing covariate data. We do not allow missing data in the treatment assignment vector, as we assume this information is always known and controlled by experimenters during the data collection process.
 
 ## Usage
 
-To install the latest version of the R package from GitHub, please run following commands in R:
+To install the latest version of the package from this GitHub, please run following commands in R:
 
 ```r
 if (!require("devtools")) install.packages("devtools")
@@ -44,7 +44,6 @@ The main function of the package is `Coadvise()`. The package includes a number 
 ```r
 # load the package
 if (!require("devtools")) install.packages("devtools")
-library(devtools)
 if(!require("Coadvise")) devtools::install_github("yiliu1998/Coadvise")
 library(Coadvise)
 ```
@@ -52,11 +51,12 @@ library(Coadvise)
 First, we consider using Lasso selection on the continuous outcome `Y1`, with using linear models in any adjusted method. We specify `Lasso` as the value to the argument `var.sel.method`, and since we want to use linear model, the `lasso.family` is specified by `gaussian`. Then, we specify both `out1.model.aipw` and `out0.model.aipw` to be `linear` as well. The following code implements this case: 
 
 ```r
-lasso.Y1 <- Coadvise(y=Y1, A=A, X=X, 
+lasso.Y1 <- Coadvise(Y=Y1, A=A, trt.name=1, ctrl.name=0,
+                     X=X, conti.out=TRUE,
                      var.sel.method="Lasso", lasso.family="gaussian", 
                      out1.model.aipw="linear", out0.model.aipw="linear",
-                     seed=1811) 
-print(lasso.Y1)
+                     seed=1811)
+print(lasso.Y1$df.fit)
 ```
 
 ```r
@@ -70,10 +70,11 @@ method      tau        se     ci.lwr   ci.upr           p
 Second, we consider using selection based on the marginal correlation (using `k=4`) on the binary outcome `Y2`, with using logistic regression models in any adjusted method. Here, `k` means we want to include k covariates having the highest k marginal correlations with the outcome. So, we specify `Corr.k` as the value to the argument `var.sel.method`, and since we want to use binary regression model, the `lasso.family` is specified by `binomial`. Then, we specify both `out1.model.aipw` and `out0.model.aipw` to be `logit` as well. The following code implements this case: 
 
 ```r
-Corr.k.Y2 <- Coadvise(y=Y2, A=A, X=X, 
-                     var.sel.method="Corr.k", k=4, 
-                     out1.model.aipw="logit", out0.model.aipw="logit") 
-print(Corr.k.Y2)
+Corr.k.Y2 <- Coadvise(Y=Y2, A=A, , trt.name=1, ctrl.name=0, 
+                      X=X, conti.out=FALSE,
+                      var.sel.method="Corr.k", k=4, 
+                      out1.model.aipw="logit", out0.model.aipw="logit") 
+print(Corr.k.Y2$df.fit)
 ```
 
 ```r
@@ -91,3 +92,8 @@ We also allow the use of adaptive Lasso (`A.Lasso`) and marginal correlation by 
 
 ## Contact
 The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.biostat@gmail.com, if you have any questions). 
+
+## Reference
+Please cite the following paper:
+
+TBA...
