@@ -4,7 +4,7 @@
 
 The package also allows five methods for handling missing data in RCTs, which are complete-case analysis (`cc`), multiple imputation by chained equations (`mice`), random forest (`missForest`), inverse probability weighting (`ipw`), and missingness inidcator imputation (`missInd`). For `mice`, see [White et al. (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4067) and its software paper [Buuren and Groothuis-Oudshoorn (2011)](https://www.jstatsoft.org/article/view/v045i03). For `missForest`, see [Stekhoven et al. (2012)](https://academic.oup.com/bioinformatics/article/28/1/112/219101). For `ipw`, see [Robins et al. (1994)](https://www.tandfonline.com/doi/abs/10.1080/01621459.1994.10476818). For `missInd`, see [Zhao et al. (2024)](https://academic.oup.com/biomet/advance-article-abstract/doi/10.1093/biomet/asae017/7633920?redirectedFrom=fulltext) and [Zhao and Ding (2024)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2123814). As a note, `ipw` only permits missing outcome data, while `missInd` only allows missing covariate data. We do not allow missing data in the treatment assignment vector, as we assume this information is always known and controlled by experimenters during the data collection process.
 
-## Usage
+## Package Installation
 
 To install the latest version of the package from this GitHub, please run following commands in R:
 
