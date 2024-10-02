@@ -35,6 +35,8 @@ Coadvise(
 
 \item{X}{Covariate vector (only one covariate) or matrix/data frame (multiple covariates)}
 
+\item{conti.out}{Specify whether the outcome is continous, `TRUE` or `FALSE`, with no default value}
+
 \item{var.sel.method}{Variable selection method for COADVISE stage I, including the following available options:
 `No` (Use all covariates without selection), `Lasso` (Lasso, which is the default choice), `A.Lasso` (Adaptive Lasso),
 `Corr.k` (Select k covariates with highest correlations with the outcome; k is between 1 and total number of covariates),

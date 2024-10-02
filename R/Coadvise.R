@@ -4,6 +4,7 @@
 #' @param trt.name Value of the active treatment in the treatment vector `A`; must exactly match the value type in `A`, e.g., 1 for number while "1" for character
 #' @param ctrl.name Value of the control in the treatment vector `A`; must exactly match the value type in `A`, e.g., 0 for number while "0" for character
 #' @param X Covariate vector (only one covariate) or matrix/data frame (multiple covariates)
+#' @param conti.out Specify whether the outcome is continous, `TRUE` or `FALSE`, with no default value
 #' @param var.sel.method Variable selection method for COADVISE stage I, including the following available options:
 #'                       `No` (Use all covariates without selection), `Lasso` (Lasso, which is the default choice), `A.Lasso` (Adaptive Lasso),
 #'                       `Corr.k` (Select k covariates with highest correlations with the outcome; k is between 1 and total number of covariates),
