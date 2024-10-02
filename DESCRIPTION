@@ -1,14 +1,14 @@
 Package: Coadvise
 Type: Package
 Title: Covariate adjustment with variable selection in randomized clinical trials
-Version: 1.1
+Version: 1.2
 Authors@R: c(person("Yi", "Liu", email = "yi.iu.biostat@gmail.com", role = c("aut", "cre"), 
          	    comment = c(ORCID = "0000-0002-0935-007X")),
   	     person("Ke", "Zhu", email = "kzhu24@ncsu.edu", role = "aut"),
   	     person("Larry", "Han", email = "lar.han@northeastern.edu", role = "aut"),
   	     person("Shu", "Yang", email = "syang24@ncsu.edu", role = "aut"))
 Maintainer: Yi Liu <yi.liu.biostat@gmail.com>
-Description: The package implements the unadjusted and covariate-adjusted methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment effect in randomized clinical trials, combining with a number of variable selection procedures (Lasso, adaptive Lasso, marginal correlation and pre-testing). Three methods dealing with missing data are included, which are complete-case analysis (cc), multiple imputation by chain equations (mice), and missingness indicator imputation (miss-ind). The miss-ind method allows missing in covariates only. 
+Description: The package implements unadjusted (Simple) and covariate-adjusted methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment effect in randomized clinical trials, combined with various variable selection procedures (Lasso, adaptive Lasso, marginal correlation, and pre-testing). Five methods for handling missing data are included. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.2
