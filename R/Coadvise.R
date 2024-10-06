@@ -54,13 +54,6 @@ Coadvise <- function(Y,
 
   set.seed(seed=seed)
 
-  if(!require("dplyr")) install.packages("dplyr")
-  if(!require("glmnet")) install.packages("glmnet")
-  if(!require("MASS")) install.packages("MASS")
-  if(!require("nnet")) install.packages("nnet")
-  library(dplyr)
-  library(glmnet)
-
   if(!conti.out%in%c(TRUE, FALSE)) {
     stop("Please specify whether the outcome variable is continuous:
          if yes--conti.out=TRUE; if no--conti.out=FALSE")
@@ -99,21 +92,17 @@ Coadvise <- function(Y,
 
     if(MI.method=="mice") {
       # multiple imputation by chained equation
-      if(!require("mice")) install.packages("mice")
-      library(mice)
       dat.miss <- data.frame(Y, A, X)
-      dat.impu <- mice(dat.miss, m=5, method="pmm", maxit=50, seed=500)
-      dat.impu <- complete(dat.impu, action=1)
+      dat.impu <- mice::mice(dat.miss, m=5, method="pmm", maxit=50, seed=500)
+      dat.impu <- mice::complete(dat.impu, action=1)
       Y.impu <- dat.impu[,1]
       X <- dat.impu[,-c(1,2)]
     }
 
     if(MI.method=="missForest") {
       # missing data imputation by random forest
-      if(!require("missForest")) install.packages("missForest")
-      library(missForest)
       dat.miss <- data.frame(Y, A, X)
-      dat.impu <- missForest(dat.miss)$ximp
+      dat.impu <- missForest::missForest(dat.miss)$ximp
       Y.impu <- dat.impu[,1]
       X <- dat.impu[,-c(1,2)]
     }
