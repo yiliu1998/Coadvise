@@ -170,40 +170,40 @@ Coadvise <- function(Y,
     ind <- ind1 <- ind0 <- 1:ncol(X)
   }
   if(var.sel.method=="Lasso") {
-    cv.lasso <- cv.glmnet(x=X, y=Y, alpha=1, family=lasso.family)
+    cv.lasso <- glmnet::cv.glmnet(x=X, y=Y, alpha=1, family=lasso.family)
     lambda <- cv.lasso$lambda.min
-    lasso <- glmnet(x=X, y=Y, alpha=1, lambda=lambda, family=lasso.family)
+    lasso <- glmnet::glmnet(x=X, y=Y, alpha=1, lambda=lambda, family=lasso.family)
     ind <- which(as.numeric(lasso$beta)!=0)
 
-    cv.lasso1 <- cv.glmnet(x=X1, y=Y1, alpha=1, family=lasso.family)
+    cv.lasso1 <- glmnet::cv.glmnet(x=X1, y=Y1, alpha=1, family=lasso.family)
     lambda <- cv.lasso1$lambda.min
-    lasso1 <- glmnet(x=X1, y=Y1, alpha=1, lambda=lambda, family=lasso.family)
+    lasso1 <- glmnet::glmnet(x=X1, y=Y1, alpha=1, lambda=lambda, family=lasso.family)
     ind1 <- which(as.numeric(lasso1$beta)!=0)
 
-    cv.lasso0 <- cv.glmnet(x=X0, y=Y0, alpha=1, family=lasso.family)
+    cv.lasso0 <- glmnet::cv.glmnet(x=X0, y=Y0, alpha=1, family=lasso.family)
     lambda <- cv.lasso0$lambda.min
-    lasso0 <- glmnet(x=X0, y=Y0, alpha=1, lambda=lambda, family=lasso.family)
+    lasso0 <- glmnet::glmnet(x=X0, y=Y0, alpha=1, lambda=lambda, family=lasso.family)
     ind0 <- which(as.numeric(lasso0$beta)!=0)
   }
   if(var.sel.method=="A.Lasso") {
-    cv.ridge <- cv.glmnet(x=X, y=Y, alpha=0, family=A.lasso.family)
+    cv.ridge <- glmnet::cv.glmnet(x=X, y=Y, alpha=0, family=A.lasso.family)
     w3 <- 1/abs(matrix(stats::coef(cv.ridge, s=cv.ridge$lambda.min)[,1][2:(ncol(X)+1)]))^1
     w3[w3[,1]==Inf] <- 999999999
-    alasso_cv <- cv.glmnet(x=X, y=Y, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
+    alasso_cv <- glmnet::cv.glmnet(x=X, y=Y, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
     alasso <- stats::coef(alasso_cv, s=alasso_cv$lambda.min, family=A.lasso.family)
     ind <- which(as.numeric(alasso)!=0)[-1]-1
 
-    cv.ridge <- cv.glmnet(x=X1, y=Y1, alpha=0, family=A.lasso.family)
+    cv.ridge <- glmnet::cv.glmnet(x=X1, y=Y1, alpha=0, family=A.lasso.family)
     w3 <- 1/abs(matrix(stats::coef(cv.ridge, s=cv.ridge$lambda.min)[,1][2:(ncol(X1)+1)]))^1
     w3[w3[,1]==Inf] <- 999999999
-    alasso_cv1 <- cv.glmnet(x=X1, y=Y1, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
+    alasso_cv1 <- glmnet::cv.glmnet(x=X1, y=Y1, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
     alasso1 <- stats::coef(alasso_cv1, s = alasso_cv1$lambda.min, family=A.lasso.family)
     ind1 <- which(as.numeric(alasso1)!=0)[-1]-1
 
-    cv.ridge <- cv.glmnet(x=X0, y=Y0, alpha=0, family=A.lasso.family)
+    cv.ridge <- glmnet::cv.glmnet(x=X0, y=Y0, alpha=0, family=A.lasso.family)
     w3 <- 1/abs(matrix(stats::coef(cv.ridge, s=cv.ridge$lambda.min)[,1][2:(ncol(X0)+1)]))^1
     w3[w3[,1]==Inf] <- 999999999
-    alasso_cv0 <- cv.glmnet(x=X0, y=Y0, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
+    alasso_cv0 <- glmnet::cv.glmnet(x=X0, y=Y0, type.measure="mse", nfold=5, alpha=1, penalty.factor=w3, keep=TRUE, family=A.lasso.family)
     alasso0 <- stats::coef(alasso_cv0, s = alasso_cv0$lambda.min, family=A.lasso.family)
     ind0 <- which(as.numeric(alasso0)!=0)[-1]-1
   }
