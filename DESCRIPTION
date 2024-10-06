@@ -8,8 +8,19 @@ Authors@R: c(person("Yi", "Liu", email = "yi.iu.biostat@gmail.com", role = c("au
   	     person("Larry", "Han", email = "lar.han@northeastern.edu", role = "aut"),
   	     person("Shu", "Yang", email = "syang24@ncsu.edu", role = "aut"))
 Maintainer: Yi Liu <yi.liu.biostat@gmail.com>
-Description: The package implements unadjusted (Simple) and covariate-adjusted methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment effect in randomized clinical trials, combined with various variable selection procedures (Lasso, adaptive Lasso, marginal correlation, and pre-testing). Five methods for handling missing data are included. 
-Imports: dplyr, MASS, glmnet, nnet, ggplot2, missForest, mice
+Description: The package implements unadjusted (Simple) and covariate-adjusted 
+         methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment 
+         effect in randomized clinical trials, combined with various variable 
+         selection procedures (Lasso, adaptive Lasso, marginal correlation, and 
+         pre-testing). Five methods for handling missing data are included. 
+Imports: 
+    dplyr, 
+    MASS, 
+    glmnet, 
+    nnet, 
+    ggplot2, 
+    missForest, 
+    mice
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.2
