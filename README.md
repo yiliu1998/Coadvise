@@ -96,4 +96,4 @@ The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.bios
 ## Reference
 Please cite the following paper:
 
-TBA...
+Liu, Y., Zhu, K., Han, L., & Yang, S. (2025). COADVISE: Covariate Adjustment with Variable Selection and Missing Data Imputation in Randomized Controlled Trials. arXiv preprint arXiv:2501.08945.
