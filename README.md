@@ -1,6 +1,6 @@
 # Coadvise
 
-`Coadvise` is an R package that implements a flexible framework for applying different covariate adjustment methods alongside various variable selection and missing data imputation techniques to estimate the average treatment effect (ATE) in randomized clinical trials (RCTs). 
+`Coadvise` is an R package that implements a flexible framework for applying different covariate adjustment methods alongside various variable selection to estimate the average treatment effect (ATE) in randomized clinical trials (RCTs). 
 
 The package also allows five methods for handling missing data in RCTs, which are complete-case analysis (`cc`), multiple imputation by chained equations (`mice`), random forest (`missForest`), inverse probability weighting (`ipw`), and missingness inidcator imputation (`missInd`). For `mice`, see [White et al. (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4067) and its software paper [Buuren and Groothuis-Oudshoorn (2011)](https://www.jstatsoft.org/article/view/v045i03). For `missForest`, see [Stekhoven et al. (2012)](https://academic.oup.com/bioinformatics/article/28/1/112/219101). For `ipw`, see [Robins et al. (1994)](https://www.tandfonline.com/doi/abs/10.1080/01621459.1994.10476818). For `missInd`, see [Zhao et al. (2024)](https://academic.oup.com/biomet/advance-article-abstract/doi/10.1093/biomet/asae017/7633920?redirectedFrom=fulltext) and [Zhao and Ding (2024)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2123814). As a note, `ipw` only permits missing outcome data, while `missInd` only allows missing covariate data. We do not allow missing data in the treatment assignment vector, as we assume this information is always known and controlled by experimenters during the data collection process.
 
@@ -38,6 +38,8 @@ mean(Y2) # proportion of 1 in Y2
 ```
 
 ## Package Usage
+
+#### Main function
 
 The main function of the package is `Coadvise()`. The package includes a number of estimation methods for ATE: Simple (unadjusted), ANCOVA, ANHECOVA and AIPW estimators. They will all be output in a data frame with their point estimates, standard errors, confidence intervals, and p-values. 
 
@@ -88,7 +90,11 @@ method         tau         se     ci.lwr       ci.upr          p
 We also allow the use of adaptive Lasso (`A.Lasso`) and marginal correlation by specifying the threshold of correlation (`Corr.xi`, with specifying `xi` a number within interval (0,1)). We also allow many other choices of outcome models used in the AIPW estimator, besides `linear` and `logit` (logistic for binary outcome) used above, which include the below cases.  
 
 * For binary outcomes: `cloglog`, `log`, `identity`, `probit` used in arguments `out1.model.aipw` and `out0.model.aipw`. 
-* For multi-valued categorical (>=2 levels) outcomes: `poission` for Poisson regression (typically for count data), `multilogi` for multinomial logistic regression, and `ordlogi` for ordinal categorical outcomes (e.g., levels of education, grade, etc.). 
+* For multi-valued categorical (>=2 levels) outcomes: `poission` for Poisson regression (typically for count data), `multilogi` for multinomial logistic regression, and `ordlogi` for ordinal categorical outcomes (e.g., levels of education, grade, etc.).
+
+#### Extensions
+
+As mentioned in the upcoming revised version of the manuscript (to be announced soon), we have included two extensions in the current version of the package (see Section 3.3). The first extension supports super-covariates or foundation models derived from external data. This functionality is integrated into the main `Coadvise()` function. The second extension handles covariate-adaptive randomization and is implemented through the `CoadviseCAR()` function. The usage of `CoadviseCAR()` is similar to `Coadvise()`, but it requires an additional argument strata, a discrete or factor variable that specifies the stratification levels used in covariate-adaptive randomization.
 
 ## Contact
 The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.biostat@gmail.com, if you have any questions). 
