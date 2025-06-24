@@ -1,20 +1,24 @@
 Package: Coadvise
 Type: Package
 Title: Covariate adjustment with variable selection in randomized clinical trials
-Version: 1.2
+Version: 2.0
 Authors@R: c(person("Yi", "Liu", email = "yi.iu.biostat@gmail.com", role = c("aut", "cre"), 
          	    comment = c(ORCID = "0000-0002-0935-007X")),
   	     person("Ke", "Zhu", email = "kzhu24@ncsu.edu", role = "aut"),
   	     person("Larry", "Han", email = "lar.han@northeastern.edu", role = "aut"),
   	     person("Shu", "Yang", email = "syang24@ncsu.edu", role = "aut"))
 Maintainer: Yi Liu <yi.liu.biostat@gmail.com>
-Description: The package implements unadjusted (Simple) and covariate-adjusted 
+Description: 
+         The package mainly implements unadjusted (Simple) and covariate-adjusted 
          methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment 
-         effect in randomized clinical trials, combined with various variable 
+         effect in complete (simple) randomized clinical trials, combined with various variable 
          selection procedures (Lasso, adaptive Lasso, marginal correlation, and 
-         pre-testing). Five methods for handling missing data are included. 
+         pre-testing). Five methods for handling missing data are included. It also supports
+         covariate-adaptive randomization defined by a discrete or factor type variable using
+         the CoadviseCAR() function. 
 Imports: 
-    dplyr, 
+    dplyr,
+    survey, 
     MASS, 
     glmnet, 
     nnet, 
