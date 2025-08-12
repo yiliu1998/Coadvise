@@ -94,7 +94,7 @@ We also allow the use of adaptive Lasso (`A.Lasso`) and marginal correlation by 
 
 #### Extensions
 
-As mentioned in the upcoming revised version of the manuscript (to be announced soon), we have included two extensions in the current version of the package (see Section 3.3). The first extension supports super-covariates or foundation models derived from external data. This functionality is integrated into the main `Coadvise()` function. The second extension handles covariate-adaptive randomization and is implemented through the `CoadviseCAR()` function. The usage of `CoadviseCAR()` is similar to `Coadvise()`, but it requires an additional argument strata, a discrete or factor variable that specifies the stratification levels used in covariate-adaptive randomization.
+In **Section 3.3** of the manuscript, we include two extensions compared to simple randomized trials in the current R package. The first extension supports super-covariates or foundation models derived from external data. This functionality is integrated into the main `Coadvise()` function. The second extension handles covariate-adaptive randomization and is implemented through the `CoadviseCAR()` function. The usage of `CoadviseCAR()` is similar to `Coadvise()`, but it requires an additional argument strata, a discrete or factor variable that specifies the stratification levels used in covariate-adaptive randomization.
 
 ## Contact
 The R code is maintained by Yi Liu (Please feel free to reach out at yi.liu.biostat@gmail.com, if you have any questions). 
