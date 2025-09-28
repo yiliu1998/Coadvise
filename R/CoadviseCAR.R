@@ -31,10 +31,16 @@
 #'                  `ipw` (inverse probability weighting) for missing outcome only.
 #'                  If there is no missing data, no method will be implemented even the value is specified.
 #' @param seed Seed for generating random numbers, when using Lasso or adaptive Lasso; default is `4399`
-#' @return The function returns a list of three components: (i) `df.fit`: results on ATE estimates, standard errors, CIs and p-values by
-#'         simple and AIPW estimators under the chosen variable selection method; (ii) `stage1.covars`: a list of covariates
-#'         data frames by the first variable selection step, including the variable selection for all ANCOVA, ANHECOVA and AIPW methods;
-#'         (iii) `AIPW.out.means`: the vector of outcome means of the two comparison groups and the covariance matrix.
+#' @return The function returns a list with three components:
+#' \itemize{
+#'   \item{\code{df.fit}}{ A data frame containing ATE estimates, standard errors, confidence intervals,
+#'                         and p-values from the Simple and AIPW estimators under the chosen variable
+#'                         selection method. }
+#'   \item{\code{stage1.covars}}{ A list of covariate data frames from the first-stage variable selection step,
+#'                                including the selected covariates for ANCOVA, ANHECOVA, and AIPW methods. }
+#'   \item{\code{AIPW.out.means}}{ A list containing the estimated outcome means of the two comparison groups
+#'                                 and the corresponding covariance matrix. }
+#' }
 CoadviseCAR <- function(Y,
                         A,
                         trt.name,

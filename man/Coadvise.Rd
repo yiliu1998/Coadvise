@@ -16,6 +16,7 @@ Coadvise(
   A.lasso.family = "gaussian",
   out1.model.aipw = "linear",
   out0.model.aipw = "linear",
+  lin.cal = FALSE,
   k = 1,
   xi = 0.25,
   pre.alpha = 0.05,
@@ -54,6 +55,8 @@ Coadvise(
 
 \item{out0.model.aipw}{Model for E(Y(0)|X) in AIPW estimator. Same argument choices as `out1.model.aipw`}
 
+\item{lin.cal}{Whether to implement linear calibration for further adjustment after obtaining the outcome models after variable selection in the AIPW estimator}
+
 \item{k}{Number of selected covariates, only if the `Corr.k` variable selection method is used; default is `1`}
 
 \item{xi}{Threshold of marginal correlation, only if the `Corr.xi` variable selection method is used; default is `0.25`}
@@ -74,10 +77,16 @@ If there is no missing data, no method will be implemented even the value is spe
 \item{seed}{Seed for generating random numbers, when using Lasso or adaptive Lasso; default is `4399`}
 }
 \value{
-The function returns a list of three components: (i) `df.fit`: results on ATE estimates, standard errors, CIs and p-values by
-        simple, ANCOVA, ANHECOVA and AIPW estimators under the chosen variable selection method; (ii) `stage1.covars`: a list of covariates
-        data frames by the first variable selection step, including the variable selection for all ANCOVA, ANHECOVA and AIPW methods;
-        (iii) `AIPW.out.means`: the vector of outcome means of the two comparison groups and the covariance matrix.
+The function returns a list with three components:
+\itemize{
+  \item{\code{df.fit}}{ A data frame of ATE estimates, standard errors, confidence intervals, and p-values
+                        from the Simple, ANCOVA, ANHECOVA, and AIPW estimators under the chosen variable
+                        selection method. }
+  \item{\code{stage1.covars}}{ A list of covariate data frames from the first-stage variable selection step,
+                               including the selected covariates for ANCOVA, ANHECOVA, and AIPW methods. }
+  \item{\code{AIPW.out.means}}{ A list containing the estimated outcome means of the two comparison groups
+                                and the corresponding covariance matrix. }
+}
 }
 \description{
 Covariate adjustment with variable selection in randomized clinical trials

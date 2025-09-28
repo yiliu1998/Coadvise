@@ -17,6 +17,7 @@
 #'                        (ii) For binary outcome: `logit`, `probit`, `log`, `cloglog`, `identity`;
 #'                        (iii) For categorical outcome more than two categories: `poisson`, `multilogi` (multinomial logistic), `ordlogi` (ordinal logistic)
 #' @param out0.model.aipw Model for E(Y(0)|X) in AIPW estimator. Same argument choices as `out1.model.aipw`
+#' @param lin.cal Whether to implement linear calibration for further adjustment after obtaining the outcome models after variable selection in the AIPW estimator
 #' @param k Number of selected covariates, only if the `Corr.k` variable selection method is used; default is `1`
 #' @param xi Threshold of marginal correlation, only if the `Corr.xi` variable selection method is used; default is `0.25`
 #' @param pre.alpha Confidence (significance) level of preliminary test; default is `0.05` (for a 0.95 confidence interval)
@@ -30,10 +31,16 @@
 #'                  `ipw` (inverse probability weighting) for missing outcome only.
 #'                  If there is no missing data, no method will be implemented even the value is specified.
 #' @param seed Seed for generating random numbers, when using Lasso or adaptive Lasso; default is `4399`
-#' @return The function returns a list of three components: (i) `df.fit`: results on ATE estimates, standard errors, CIs and p-values by
-#'         simple, ANCOVA, ANHECOVA and AIPW estimators under the chosen variable selection method; (ii) `stage1.covars`: a list of covariates
-#'         data frames by the first variable selection step, including the variable selection for all ANCOVA, ANHECOVA and AIPW methods;
-#'         (iii) `AIPW.out.means`: the vector of outcome means of the two comparison groups and the covariance matrix.
+#' @return The function returns a list with three components:
+#' \itemize{
+#'   \item{\code{df.fit}}{ A data frame of ATE estimates, standard errors, confidence intervals, and p-values
+#'                         from the Simple, ANCOVA, ANHECOVA, and AIPW estimators under the chosen variable
+#'                         selection method. }
+#'   \item{\code{stage1.covars}}{ A list of covariate data frames from the first-stage variable selection step,
+#'                                including the selected covariates for ANCOVA, ANHECOVA, and AIPW methods. }
+#'   \item{\code{AIPW.out.means}}{ A list containing the estimated outcome means of the two comparison groups
+#'                                 and the corresponding covariance matrix. }
+#' }
 Coadvise <- function(Y,
                      A,
                      trt.name,
@@ -45,6 +52,7 @@ Coadvise <- function(Y,
                      A.lasso.family="gaussian",
                      out1.model.aipw="linear",
                      out0.model.aipw="linear",
+                     lin.cal=FALSE,
                      k=1,
                      xi=0.25,
                      pre.alpha=0.05,
@@ -299,7 +307,7 @@ Coadvise <- function(Y,
   colnames(X0.AIPW) <- X.names[ind0]
 
   result <- .AIPW(Y1=Y1, Y0=Y0, X1=X1.AIPW, X0=X0.AIPW, A=A, X.pred=X, Y=Y,
-                  out0.model=out0.model.aipw, out1.model=out1.model.aipw)
+                  out0.model=out0.model.aipw, out1.model=out1.model.aipw, lin.cal=lin.cal)
   tau.aipw <- result$ATE$tau
   se.aipw <- result$ATE$se
   p.aipw <- 2*(1-pnorm(abs(tau.aipw/se.aipw)))
@@ -326,7 +334,7 @@ Coadvise <- function(Y,
 }
 
 .AIPW <- function(Y0, Y1, X1, X0, A, X.pred, Y,
-                  out0.model="linear", out1.model="linear") {
+                  out0.model="linear", out1.model="linear", lin.cal=FALSE) {
 
   n <- length(A)
   pi1 <- mean(A)
@@ -360,11 +368,11 @@ Coadvise <- function(Y,
     }
     if(out1.model=="multilogi") {
       fit1 <- nnet::multinom(Y1~.-Y1, data=data.frame(Y1, X1))
-      m1.h <- predict(fit1, data=data.frame(X.pred))
+      m1.h <- predict(fit1, data.frame(X.pred))
     }
     if(out1.model=="ordlogi") {
       fit1 <- MASS::polr(Y1~.-Y1, data=data.frame(Y1, X1), method="logistic")
-      m1.h <- predict(fit1, data=data.frame(X.pred))
+      m1.h <- predict(fit1, data.frame(X.pred))
     }
     m1.h1 <- m1.h[A==1]
     m1.h0 <- m1.h[A==0]
@@ -386,14 +394,31 @@ Coadvise <- function(Y,
     }
     if(out0.model=="multilogi") {
       fit0 <- nnet::multinom(Y0~.-Y0, data=data.frame(Y0, X0))
-      m0.h <- predict(fit0, data=data.frame(X.pred))
+      m0.h <- predict(fit0, data.frame(X.pred))
     }
     if(out0.model=="ordlogi") {
       fit0 <- MASS::polr(Y0~.-Y0, data=data.frame(Y0, X0), method="logistic")
-      m0.h <- predict(fit0, data=data.frame(X.pred))
+      m0.h <- predict(fit0, data.frame(X.pred))
     }
     m0.h1 <- m0.h[A==1]
     m0.h0 <- m0.h[A==0]
+  }
+
+  # Users can specify whether to do linear calibration in our framework
+  if(lin.cal) {
+    df.lincal <- data.frame(A=A, Y=Y, mu1=m1.h, mu0=m0.h)
+    df1.lincal <- df.lincal[df.lincal$A==1,]
+    df0.lincal <- df.lincal[df.lincal$A==0,]
+    lincal.md1 <- lm(Y~mu1+mu0, data=df1.lincal)
+    lincal.md0 <- lm(Y~mu1+mu0, data=df0.lincal)
+
+    # update the predicted outcome values
+    m1.h <- predict(lincal.md1, df.lincal)
+    m0.h <- predict(lincal.md0, df.lincal)
+    m0.h1 <- m0.h[A==1]
+    m0.h0 <- m0.h[A==0]
+    m1.h1 <- m1.h[A==1]
+    m1.h0 <- m1.h[A==0]
   }
 
   ### AIPW estimator and standard error calculation
