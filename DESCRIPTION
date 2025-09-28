@@ -1,29 +1,30 @@
 Package: Coadvise
 Type: Package
-Title: Covariate adjustment with variable selection in randomized clinical trials
+Title: Covariate Adjustment with Variable Selection in Randomized Clinical Trials
 Version: 2.0
-Authors@R: c(person("Yi", "Liu", email = "yi.iu.biostat@gmail.com", role = c("aut", "cre"), 
-         	    comment = c(ORCID = "0000-0002-0935-007X")),
-  	     person("Ke", "Zhu", email = "kzhu24@ncsu.edu", role = "aut"),
-  	     person("Larry", "Han", email = "lar.han@northeastern.edu", role = "aut"),
-  	     person("Shu", "Yang", email = "syang24@ncsu.edu", role = "aut"))
+Authors@R: c(
+    person("Yi", "Liu", email = "yi.liu.biostat@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0935-007X")),
+    person("Ke", "Zhu", email = "kzhu24@ncsu.edu", role = "aut"),
+    person("Larry", "Han", email = "larry.han@northeastern.edu", role = "aut"),
+    person("Shu", "Yang", email = "syang24@ncsu.edu", role = "aut")
+)
 Maintainer: Yi Liu <yi.liu.biostat@gmail.com>
-Description: 
-         The package mainly implements unadjusted (Simple) and covariate-adjusted 
-         methods (ANCOVA, ANHECOVA, AIPW) for estimating the average treatment 
-         effect in complete (simple) randomized clinical trials, combined with various variable 
-         selection procedures (Lasso, adaptive Lasso, marginal correlation, and 
-         pre-testing). Five methods for handling missing data are included. It also supports
-         covariate-adaptive randomization defined by a discrete or factor type variable using
-         the CoadviseCAR() function. 
-Imports: 
+Description: Provides methods for estimating average treatment effects in completely 
+    randomized clinical trials using both unadjusted (Simple) and covariate-adjusted 
+    approaches (ANCOVA, ANHECOVA, AIPW). The package integrates multiple variable 
+    selection strategies (Lasso, adaptive Lasso, marginal correlation, and pre-testing) 
+    and supports five missing-data handling methods. Additionally, the function 
+    'CoadviseCAR()' implements covariate-adaptive randomization when defined by a 
+    discrete or factor-type variable.
+Imports:
     dplyr,
-    survey, 
-    MASS, 
-    glmnet, 
-    nnet, 
-    ggplot2, 
-    missForest, 
+    survey,
+    MASS,
+    glmnet,
+    nnet,
+    ggplot2,
+    missForest,
     mice
 License: MIT + file LICENSE
 Encoding: UTF-8
